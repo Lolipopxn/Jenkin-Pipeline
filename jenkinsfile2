@@ -20,7 +20,7 @@
                 stage('Integration Tests') {
                     steps {
                         echo 'Running integration tests...'
-                        sh 'exit 1'
+                        sh 'sleep 5'
                     }
                 }
             }
@@ -35,6 +35,7 @@
          stage('Approval') {
             steps {
                 input "Do you want to proceed with deployment?"
+                sh 'exit 1'
             }
         }
 
