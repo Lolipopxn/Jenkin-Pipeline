@@ -42,13 +42,13 @@
                 stage('Linux') {
                     steps {
                         echo 'Running simulate Linux...'
-                        sh 'Linux OK'
+                        sh 'echo "Linux OK"'
                     }
                 }
                 stage('Windows') {
                     steps {
                         echo 'Running simulate Linux...'
-                        sh 'Windows OK'
+                        sh 'echo "Windows OK"'
                     }
                 }
             }
