@@ -1,15 +1,23 @@
  pipeline {
     agent any
     parameters {
-        booleanParam(name: 'RUN_DEPLOY', defaultValue: false, description: 'Should we deploy?')
+        booleanParam(name: 'RUN_DEPLOY', defaultValue: false, description: 'Should we deploy?'),
+        choice(
+            name: 'ENV',
+            choices: ['dev', 'staging', 'prod'],
+            description: 'Select the environment to deploy'
+        )
     }
     stages {
         stage('Build') {
             steps {
-                echo 'Building application...'
+                echo 'Building application Success..'
             }
         }
-        stage('Test in Parallel') {
+        stage('Tests') {
+             when {
+                expression { currentBuild.currentResult == 'SUCCESS' }
+            }
             parallel {
                 stage('Unit Tests') {
                     steps {
@@ -25,6 +33,23 @@
                 }
             }
         }
+        stage('simulate testing') {
+            parallel {
+                stage('Linux') {
+                    steps {
+                        echo 'Running simulate Linux...'
+                        sh 'Linux OK'
+                    }
+                }
+                stage('Windows') {
+                    steps {
+                        echo 'Running simulate Linux...'
+                        sh 'Windows OK'
+                    }
+                }
+            }
+        }
+
         stage('Test') {
             steps {
                 sh 'echo "All tests passed!" > results.txt'
@@ -34,7 +59,9 @@
 
          stage('Approval') {
             steps {
-                input "Do you want to proceed with deployment?"
+                timeout(time: 10, unit: 'seCONDS') {
+                    input "Do you want to proceed with deployment?"               
+                }
             }
         }
 
@@ -43,8 +70,8 @@
                 expression { return params.RUN_DEPLOY==false }
             }
             steps {
-                echo 'Deploying application...'
-                sh 'exit 1'
+                echo "Deploying to environment: ${params.ENV}"
+                sh "echo Deploy process started for ${params.ENV}"
             }
         }
     }
