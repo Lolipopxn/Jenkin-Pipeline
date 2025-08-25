@@ -6,7 +6,11 @@
             defaultValue: false,
             description: 'Should we deploy?'
         )
-
+        choice(
+            name: 'ENV',
+            choices: ['dev', 'staging', 'prod'],
+            description: 'Select the environment to deploy'
+        )
     }
     stages {
         stage('Build') {
@@ -59,7 +63,7 @@
 
          stage('Approval') {
             steps {
-                timeout(time: 10, unit: 'seCONDS') {
+                timeout(time: 10, unit: 'SECONDS') {
                     input "Do you want to proceed with deployment?"               
                 }
             }
@@ -70,8 +74,8 @@
                 expression { params.RUN_DEPLOY }
             }
             steps {
-                echo "Deploying to environment"
-                sh "echo Deploy process started for"
+                echo "Deploying to environment: ${params.ENV}"
+                sh "echo Deploy process started for ${params.ENV}"
             }
         }
     }
