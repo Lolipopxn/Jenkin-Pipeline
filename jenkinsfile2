@@ -1,7 +1,11 @@
  pipeline {
     agent any
     parameters {
-        booleanParam(name: 'RUN_DEPLOY', defaultValue: false, description: 'Should we deploy?')
+        booleanParam(
+            name: 'RUN_DEPLOY',
+            defaultValue: false,
+            description: 'Should we deploy?'
+        )
         choice(
             name: 'ENV',
             choices: ['dev', 'staging', 'prod'],
@@ -67,7 +71,7 @@
 
         stage('Deploy') {
             when {
-                expression { return params.RUN_DEPLOY==false }
+                expression { params.RUN_DEPLOY }
             }
             steps {
                 echo "Deploying to environment: ${params.ENV}"
