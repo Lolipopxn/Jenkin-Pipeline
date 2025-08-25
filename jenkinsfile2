@@ -6,11 +6,7 @@
             defaultValue: false,
             description: 'Should we deploy?'
         )
-        choice(
-            name: 'ENV',
-            choices: ['dev', 'staging', 'prod'],
-            description: 'Select the environment to deploy'
-        )
+
     }
     stages {
         stage('Build') {
@@ -74,8 +70,8 @@
                 expression { params.RUN_DEPLOY }
             }
             steps {
-                echo "Deploying to environment: ${params.ENV}"
-                sh "echo Deploy process started for ${params.ENV}"
+                echo "Deploying to environment"
+                sh "echo Deploy process started for"
             }
         }
     }
