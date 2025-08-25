@@ -20,7 +20,7 @@
                 stage('Integration Tests') {
                     steps {
                         echo 'Running integration tests...'
-                        sh 'sleep 5'
+                        sh 'exit 1'
                     }
                 }
             }
