@@ -35,7 +35,6 @@
          stage('Approval') {
             steps {
                 input "Do you want to proceed with deployment?"
-                sh 'exit 1'
             }
         }
 
@@ -45,6 +44,7 @@
             }
             steps {
                 echo 'Deploying application...'
+                sh 'exit 1'
             }
         }
     }
